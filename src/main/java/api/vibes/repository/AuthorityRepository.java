@@ -1,0 +1,14 @@
+package api.vibes.repository;
+
+import api.vibes.domain.Authority;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Spring Data JPA repository for the Authority entity.
+ */
+@SuppressWarnings("unused")
+@Repository
+public interface AuthorityRepository extends JpaRepository<Authority, String> {
+    Authority findFirstByName(String name);
+}

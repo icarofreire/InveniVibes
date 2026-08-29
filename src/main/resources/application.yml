@@ -1,0 +1,74 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/invenivibes
+    # username: ${JDBC_DATABASE_USERNAME:postgres}
+    # password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    # url: jdbc:h2:file:./build/h2db/db/vibes;DB_CLOSE_DELAY=-1
+    username: invenivibes
+    password: invenivibes26012012
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+  h2:
+   console:
+     enabled: true
+  jpa:
+    # \/ para exibir no console todas as instruções SQL geradas automaticamente; (debug de queries)
+    # \/ Aviso: Não utilizar em produção, pois impacta a performance e pode expor dados sensíveis;
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        # \/ para facilitar a leitura do sql gerado;
+        # \/ Aviso: Não utilizar em produção, pois impacta a performance e pode expor dados sensíveis;
+        format_sql: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        id:
+          new_generator_mappings: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+error:
+  handling:
+    http-status-in-json-response: true
+    exception-logging: NO_LOGGING
+    full-stacktrace-http-statuses: 5xx
+    log-levels:
+      5xx: ERROR
+server:
+  #\/ Você pode alterar a porta padrão (8080) de uma aplicação Spring Boot usando configuração;
+  port: 8080
+  undertow:
+    allow-encoded-slash: false
+    buffer-size: 1024 # Size of each buffer in bytes
+    direct-buffers: true # Allocate buffers outside the Java heap
+    max-cookies: 200
+    accesslog:
+      enabled: false
+      # directory: logs # Relative path for access logs
+#\/ inserido;
+application:
+  # CORS is only enabled by default with the "dev" profile
+  # cors:
+  #   # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+  #   allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060,http://localhost:8080,http://127.0.1.1:8080,localhost:8080'
+  #   # Enable CORS when running in GitHub Codespaces
+  #   allowed-origin-patterns: 'https://*.githubpreview.dev'
+  #   allowed-methods: '*'
+  #   allowed-headers: '*'
+  #   exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+  #   allow-credentials: true
+  #   max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: ZGJjZGE2MDQ4NjNiZDNiMmZlNDI5NzljOGQ1NjliYTAyZjQ1OTdkY2I3OTAwZGYwZDg2ZGRkYTZmZmU4MmQxOTk1ODg3NjQxYWE2NDU1MGY1N2VkY2QwNTcwOTFhMWI2ZDAzYjRkNzE2ZjNlNDQ4N2U5NTJlYTM0MTcxMjE4ZWY=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
