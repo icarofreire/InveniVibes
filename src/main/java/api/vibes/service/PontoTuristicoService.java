@@ -120,17 +120,20 @@ public class PontoTuristicoService {
                 }//for
             }//for
             
-            for (Map.Entry<Integer, DistanciaPontosRecord> entry : pontoMinObjt.entrySet()) {
-                // System.out.println("MIN::" + entry.getKey() + " => " + entry.getValue());
-                System.out.println("MIN::" + entry.getKey() + " => " +
-                entry.getValue().pontoA().getNome() + " => " +
-                entry.getValue().pontoB().getNome() + " => " +
-                entry.getValue().distancia() + " => " +
-                entry.getValue().metros() + " => " +
-                entry.getValue().minutos()
-                );
-            }
-            return new ArrayList<>(pontoMinObjt.values());
+            // for (Map.Entry<Integer, DistanciaPontosRecord> entry : pontoMinObjt.entrySet()) {
+            //     // System.out.println("MIN::" + entry.getKey() + " => " + entry.getValue());
+            //     System.out.println("MIN::" + entry.getKey() + " => " +
+            //     entry.getValue().pontoA().getNome() + " => " +
+            //     entry.getValue().pontoB().getNome() + " => " +
+            //     entry.getValue().distancia() + " => " +
+            //     entry.getValue().metros() + " => " +
+            //     entry.getValue().minutos()
+            //     );
+            // }
+            List<DistanciaPontosRecord> cidadesDistancias = new ArrayList<>(pontoMinObjt.values());
+            /*\/ ordenar por distancias; */
+            cidadesDistancias.sort(java.util.Comparator.comparing(DistanciaPontosRecord::distancia));
+            return cidadesDistancias;
         }//if
         return null;
     }
