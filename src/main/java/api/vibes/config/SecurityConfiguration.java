@@ -80,6 +80,7 @@ class SecurityConfiguration {
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/register")).permitAll()
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/activate")).permitAll()
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/admin/unidades-ativas")).permitAll()
+        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/admin/pontos-proximos")).permitAll()
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/account/reset-password/init")).permitAll()
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/account/reset-password/finish")).permitAll()
         .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/api/admin/**")).authenticated()//.hasAuthority(AuthoritiesConstants.ADMIN)
