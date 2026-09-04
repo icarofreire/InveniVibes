@@ -88,11 +88,13 @@ public class PontoTuristicoService {
     }
 
     public List<DistanciaPontosRecord> calcularDistanciasPontosTuristicos(String uf){
-
-        HashMap<Integer, Double> pontoQueue= new HashMap<>();
-        HashMap<Integer, DistanciaPontosRecord> pontoMinObjt= new HashMap<>();
+        List<DistanciaPontosRecord> cidadesDistancias = new ArrayList<>();
+        /*\/ minimo em km para ser considerado pontos próximos; */
+        int minimoKM = 5;
     
         List<PontoTuristico> pontos = pontoTuristicoRepository.findAllByUfOrderByDataRegistroDesc(uf);
+        int[][] indices = new int[pontos.size()][pontos.size()]; // << 0s, zeros;
+
         if(pontos != null && !pontos.isEmpty()){
             for (int i = 0; i < pontos.size(); i++) {
                 for (int j = 0; j < pontos.size(); j++) {
@@ -101,36 +103,23 @@ public class PontoTuristicoService {
                         if(Double.valueOf(distancia).compareTo(0.0) > 0){ // << se retorno da distancia é maior que 0.0;
                             // System.out.println(i + ", " + j + " : " + distancia);
 
-                            if(!pontoQueue.containsKey(i)){
-                                pontoQueue.put(i, Double.MAX_VALUE);
-                            }else{
-                                double minima = Double.min(pontoQueue.get(i), distancia);
-                                pontoQueue.put(i, minima);
+                            long roundDistancia = Math.round(distancia);
+                            if(roundDistancia <= minimoKM && (indices[i][j] == 0 && indices[j][i] == 0)){
                                 DistanciaPontosRecord distanciaRecord = new DistanciaPontosRecord(
                                     pontos.get(i),
                                     pontos.get(j),
-                                    minima,
-                                    geoService.kmToMeters(minima),
-                                    geoService.kmToMin(minima)
+                                    distancia,
+                                    geoService.kmToMeters(distancia),
+                                    geoService.kmToMin(distancia)
                                 );
-                                pontoMinObjt.put(i, distanciaRecord);
+                                cidadesDistancias.add(distanciaRecord);
+                                indices[i][j] = indices[j][i] = 1;
                             }
                         }
                     }
                 }//for
             }//for
-            
-            // for (Map.Entry<Integer, DistanciaPontosRecord> entry : pontoMinObjt.entrySet()) {
-            //     // System.out.println("MIN::" + entry.getKey() + " => " + entry.getValue());
-            //     System.out.println("MIN::" + entry.getKey() + " => " +
-            //     entry.getValue().pontoA().getNome() + " => " +
-            //     entry.getValue().pontoB().getNome() + " => " +
-            //     entry.getValue().distancia() + " => " +
-            //     entry.getValue().metros() + " => " +
-            //     entry.getValue().minutos()
-            //     );
-            // }
-            List<DistanciaPontosRecord> cidadesDistancias = new ArrayList<>(pontoMinObjt.values());
+
             /*\/ ordenar por distancias; */
             cidadesDistancias.sort(java.util.Comparator.comparing(DistanciaPontosRecord::distancia));
             return cidadesDistancias;

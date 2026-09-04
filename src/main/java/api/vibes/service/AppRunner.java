@@ -52,7 +52,7 @@ public class AppRunner implements ApplicationRunner {
         preUser("root", "562531568685745253753", AuthoritiesConstants.roles.ROLE_ROOT.name(), AuthoritiesConstants.roles.ROLE_USER.name());
 
         pontoTuristicoService.preencherPontosTuristicosBasicos();
-        pontoTuristicoService.calcularDistanciasPontosTuristicos("SE");
+        // pontoTuristicoService.calcularDistanciasPontosTuristicos("SE");
     }
 
     /**\/ inicia algumas ROLE'S de uruários para a entidade Authority; */
